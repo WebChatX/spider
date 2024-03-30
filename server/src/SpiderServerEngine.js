@@ -3,7 +3,9 @@ const eventTypes = require("./eventTypes");
 
 class SpiderServerEngine {
   /**
+   * SpiderServerEngine构造函数
    * @param {WebSocket.ServerOptions} options
+   * @param {Function} callback 绑定接口成功的回调
    */
   constructor(options, callback) {
     // 客户端socket列表
@@ -14,7 +16,11 @@ class SpiderServerEngine {
     this._initEngine(options, callback);
   }
 
-  //Spider服务端引擎初始化
+  /**
+   * Spider服务端引擎初始化
+   * @param {WebSocket.ServerOptions} options
+   * @param {Function} callback 绑定接口成功的回调
+   */
   _initEngine(options, callback) {
     this.engine = new WebSocket.Server(options);
     this.engine.on("connection", this._connectHandler);
