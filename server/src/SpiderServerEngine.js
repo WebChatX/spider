@@ -5,30 +5,30 @@ class SpiderServerEngine {
   /**
    * SpiderServerEngine构造函数
    * @param {WebSocket.ServerOptions} options
-   * @param {Function} callback 绑定接口成功的回调
    */
-  constructor(options, callback) {
+  constructor(options) {
     // 客户端socket列表
     this.clientSocketList = [];
     // Spider事件中心
     this.spiderEventMap = new Map();
     // 初始化引擎
-    this._initEngine(options, callback);
+    this._initEngine(options);
   }
 
   /**
    * Spider服务端引擎初始化
    * @param {WebSocket.ServerOptions} options
-   * @param {Function} callback 绑定接口成功的回调
    */
-  _initEngine(options, callback) {
+  _initEngine(options) {
     this.engine = new WebSocket.Server(options);
-    this.engine.on("connection", this._connectHandler);
-    this.engine.on("close", this._closeHandler);
-    this.engine.on("error", this._errorHandler);
+    this.engine.on("connection", this._connectHandler.bind(this));
+    this.engine.on("listening", this._listenHandler.bind(this));
+    this.engine.on("close", this._closeHandler.bind(this));
+    this.engine.on("error", this._errorHandler.bind(this));
     // this.engine.on("headers", () => {});
-    this.engine.on("listening", () => callback && callback());
   }
+
+  // #region SpiderServerEngine事件处理
 
   /**
    * 客户端socket连接处理
@@ -36,26 +36,41 @@ class SpiderServerEngine {
    * @param {IncomingMessage} req
    */
   _connectHandler(ws, req) {
-    const ip = req.socket.remoteAddress;
-    console.log(ip);
+    this.clientSocketList.push(ws);
+    if (this.spiderEventMap.has("online")) {
+      const onlineEvent = this.spiderEventMap.get("online");
+      onlineEvent(ws, req);
+    }
   }
 
   /**
-   * WebSocket服务发生错误时触发
+   * Spider服务端引擎开始监听指定的端口时触发
+   */
+  _listenHandler() {
+    const listeningEvent = this.spiderEventMap.get("listening");
+    if (listeningEvent) {
+      listeningEvent();
+    }
+  }
+
+  /**
+   * Spider服务端引擎关闭时触发
+   */
+  _closeHandler() {
+    const closeEvent = this.spiderEventMap.get("close");
+    if (closeEvent) {
+      closeEvent();
+    }
+  }
+
+  /**
+   * Spider服务端引擎发生错误时触发
    * @param {Error} error
    */
   _errorHandler(error) {
     const errorEvent = this.spiderEventMap.get("error");
     if (errorEvent) {
       errorEvent(error);
-    }
-  }
-
-  // WebSocket服务关闭时触发
-  _closeHandler() {
-    const closeEvent = this.spiderEventMap.get("close");
-    if (closeEvent) {
-      closeEvent();
     }
   }
 
@@ -70,6 +85,21 @@ class SpiderServerEngine {
     }
     this.spiderEventMap.set(type, listener);
   }
+
+  /**
+   * 为Spider服务端引擎移除事件监听
+   * @param {string} type
+   */
+  removeEventListener(type) {
+    if (!eventTypes.includes(type)) {
+      throw new Error(`Unsupported event type: ${type}`);
+    }
+    if (this.spiderEventMap.has(type)) {
+      this.spiderEventMap.delete(type);
+    }
+  }
+
+  // #endregion
 }
 
 module.exports = SpiderServerEngine;

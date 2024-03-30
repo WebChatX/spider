@@ -6,11 +6,26 @@
     <title>Document</title>
   </head>
   <body>
-    <div></div>
+    <button onclick="login()">登录</button>
+    <button onclick="exit()">退出登录</button>
 
     <script>
-      const a = new Map();
-      console.log(a.get("close"));
+      let socket = null;
+
+      const login = () => {
+        socket = new WebSocket("ws://192.168.2.3:8080");
+        socket.addEventListener("open", function (event) {
+          console.log("连接成功", event);
+          alert("连接成功");
+        });
+        socket.addEventListener("message", function (event) {
+          console.log(event.data);
+        });
+      };
+
+      const exit = () => {
+        socket.close();
+      };
     </script>
   </body>
 </html>
