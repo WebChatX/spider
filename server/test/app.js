@@ -14,6 +14,10 @@ spiderServerEngine.addEventListener("close", () => {
   console.log("SpiderServerEngine服务关闭");
 });
 
-spiderServerEngine.addEventListener("online", (ws, req) => {
-  console.log(`客户端上线---IP: ${req.socket.remoteAddress}`);
+spiderServerEngine.addEventListener("online", (event) => {
+  console.log(`客户端上线`);
+});
+
+spiderServerEngine.addEventListener("offline", (event) => {
+  console.log("客户端下线");
 });
