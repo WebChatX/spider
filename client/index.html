@@ -13,7 +13,7 @@
       let socket = null;
 
       const login = () => {
-        socket = new WebSocket("ws://192.168.2.3:8080");
+        socket = new WebSocket("ws://127.0.0.1:8080");
         socket.addEventListener("open", function (event) {
           console.log("连接成功", event);
           alert("连接成功");
