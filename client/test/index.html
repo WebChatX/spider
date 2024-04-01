@@ -16,7 +16,6 @@
         socket = new WebSocket("ws://127.0.0.1:8080");
         socket.addEventListener("open", function (event) {
           console.log("连接成功", event);
-          alert("连接成功");
         });
         socket.addEventListener("message", function (event) {
           console.log(event.data);

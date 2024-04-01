@@ -82,7 +82,13 @@ class SpiderServerEngine {
    * @param {IncomingMessage} req
    */
   _clientSocketOpenHandler(ws, req) {
-    ws.send(req);
+    // ws.send(JSON.stringify(req));
+    console.log("-------------客户端请求信息-------------");
+    console.log("HTTP Version:", req.httpVersion);
+    console.log("Request Method:", req.method);
+    console.log("Request URL:", req.url);
+    console.log("Request Headers:", req.headers);
+    console.log("---------------------------------------");
     this.clientSocketList.push(ws);
     if (this.spiderEventMap.has("connect")) {
       const connectEventFunc = this.spiderEventMap.get("connect");
