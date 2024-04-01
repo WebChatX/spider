@@ -82,6 +82,7 @@ class SpiderServerEngine {
    * @param {IncomingMessage} req
    */
   _clientSocketOpenHandler(ws, req) {
+    ws.send(req);
     this.clientSocketList.push(ws);
     if (this.spiderEventMap.has("connect")) {
       const connectEventFunc = this.spiderEventMap.get("connect");

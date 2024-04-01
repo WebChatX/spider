@@ -1,0 +1,17 @@
+{
+  "name": "spider",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
