@@ -34,9 +34,9 @@ class SpiderServerEngine {
    * Spider服务端引擎开始监听指定的端口时触发
    */
   _listenHandler() {
-    if (this.spiderEventMap.has("listening")) {
-      const listeningEventFunc = this.spiderEventMap.get("listening");
-      listeningEventFunc();
+    if (this.spiderEventMap.has("listen")) {
+      const listenEventFunc = this.spiderEventMap.get("listen");
+      listenEventFunc();
     }
   }
 
@@ -83,9 +83,9 @@ class SpiderServerEngine {
    */
   _clientSocketOpenHandler(ws, req) {
     this.clientSocketList.push(ws);
-    if (this.spiderEventMap.has("online")) {
-      const onlineEventFunc = this.spiderEventMap.get("online");
-      onlineEventFunc(ws);
+    if (this.spiderEventMap.has("connect")) {
+      const connectEventFunc = this.spiderEventMap.get("connect");
+      connectEventFunc(ws);
     }
   }
 
@@ -97,9 +97,9 @@ class SpiderServerEngine {
   _clientSocketCloseHandler(ws, req) {
     // TODO 从客户端Socket列表中移除
     //???
-    if (this.spiderEventMap.has("offline")) {
-      const offlineEventFunc = this.spiderEventMap.get("offline");
-      offlineEventFunc(ws);
+    if (this.spiderEventMap.has("disconnect")) {
+      const disconnectEventFunc = this.spiderEventMap.get("disconnect");
+      disconnectEventFunc(ws);
     }
   }
 
