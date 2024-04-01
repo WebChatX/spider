@@ -1,4 +1,4 @@
-const { SpiderServerEngine } = require("../src/main");
+import { SpiderServerEngine } from "../src/main.js";
 
 const spiderServerEngine = new SpiderServerEngine({ port: 8080 });
 

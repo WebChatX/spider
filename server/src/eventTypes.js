@@ -7,4 +7,4 @@
  */
 const eventTypes = ["listen", "close", "error", "connect", "disconnect"];
 
-module.exports = eventTypes;
+export default eventTypes;

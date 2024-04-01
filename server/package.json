@@ -2,6 +2,7 @@
   "name": "@spider/server",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "src/main.js",
   "scripts": {
     "test": "node test/app.js"

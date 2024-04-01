@@ -1,5 +1,5 @@
-const WebSocket = require("ws");
-const eventTypes = require("./eventTypes");
+import { WebSocketServer } from "ws";
+import eventTypes from "./eventTypes.js";
 
 class SpiderServerEngine {
   /**
@@ -20,7 +20,7 @@ class SpiderServerEngine {
    * @param {WebSocket.ServerOptions} options
    */
   _initEngine(options) {
-    this.engine = new WebSocket.Server(options);
+    this.engine = new WebSocketServer(options);
     this.engine.on("listening", this._listenHandler.bind(this));
     this.engine.on("close", this._closeHandler.bind(this));
     this.engine.on("error", this._errorHandler.bind(this));
@@ -142,4 +142,4 @@ class SpiderServerEngine {
   // #endregion
 }
 
-module.exports = SpiderServerEngine;
+export default SpiderServerEngine;

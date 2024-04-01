@@ -1,3 +1,3 @@
-const SpiderServerEngine = require("./SpiderServerEngine");
+import SpiderServerEngine from "./SpiderServerEngine.js";
 
-exports.SpiderServerEngine = SpiderServerEngine;
+export { SpiderServerEngine };

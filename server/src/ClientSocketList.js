@@ -1,3 +1,3 @@
 class ClientSocketList {}
 
-module.exports = ClientSocketList;
+export default ClientSocketList;
