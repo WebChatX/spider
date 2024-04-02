@@ -3,3 +3,4 @@
 客户端上下线通知
 客户端Socket列表类设计：ClientSocketList
 消息序列化：JSON、二进制
+SpiderClientOptions类设计
