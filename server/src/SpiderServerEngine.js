@@ -1,5 +1,6 @@
 import { WebSocketServer } from "ws";
 import eventTypes from "./eventTypes.js";
+import { generateSocketID } from "./utils.js";
 
 class SpiderServerEngine {
   /**
@@ -8,7 +9,7 @@ class SpiderServerEngine {
    */
   constructor(options) {
     // 客户端socket列表
-    this.clientSocketList = [];
+    this.clientSocketMap = new Map();
     // Spider事件中心
     this.spiderEventMap = new Map();
     // 初始化引擎
@@ -89,7 +90,9 @@ class SpiderServerEngine {
     console.log("Request URL:", req.url);
     console.log("Request Headers:", req.headers);
     console.log("---------------------------------------");
-    this.clientSocketList.push(ws);
+    const socketID = generateSocketID();
+    this.clientSocketMap.set(socketID, ws);
+    // ws.send();
     if (this.spiderEventMap.has("connect")) {
       const connectEventFunc = this.spiderEventMap.get("connect");
       connectEventFunc(ws);
