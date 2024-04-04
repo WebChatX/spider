@@ -4,27 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+    <script src="./index.js" type="module" defer></script>
   </head>
   <body>
-    <button onclick="login()">登录</button>
-    <button onclick="exit()">退出登录</button>
-
-    <script>
-      let socket = null;
-
-      const login = () => {
-        socket = new WebSocket("ws://127.0.0.1:8080");
-        socket.addEventListener("open", function (event) {
-          console.log("连接成功", event);
-        });
-        socket.addEventListener("message", function (event) {
-          console.log(event.data);
-        });
-      };
-
-      const exit = () => {
-        socket.close();
-      };
-    </script>
+    <button id="btn1">连接spider服务器</button>
   </body>
 </html>
