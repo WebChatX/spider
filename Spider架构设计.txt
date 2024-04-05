@@ -3,3 +3,5 @@
 客户端上下线通知
 消息序列化：JSON、二进制
 SpiderClientOptions类设计
+
+SpiderMessage
