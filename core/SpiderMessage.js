@@ -1,4 +1,6 @@
-const allowMsgType = ["LOGIN_SPIDER"];
+import messageType from "./messageType.js";
+
+const allowMsgType = Object.values(messageType);
 
 class SpiderMessage {
   constructor(msgType, data) {

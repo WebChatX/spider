@@ -1,4 +1,4 @@
-import { SpiderClientEngine } from "../src/main.js";
+import { SpiderClientEngine } from "../dist/SpiderClient.esm.js";
 
 let spiderClientEngine = null;
 

@@ -1,4 +1,14 @@
-import { SpiderMessage, messageType } from "@spider/core";
+const allowMsgType = ["LOGIN_SPIDER"];
+
+class SpiderMessage {
+  constructor(msgType, data) {
+    if (!allowMsgType.includes(msgType)) {
+      throw new Error(`Unsupported message type: ${msgType}`);
+    }
+    this.msgType = msgType;
+    this.data = data;
+  }
+}
 
 class SpiderClientEngine {
   /**
@@ -9,6 +19,7 @@ class SpiderClientEngine {
   constructor(url, socketID) {
     // 初始化引擎
     this._initEngine(url, socketID);
+    this.a = SpiderMessage;
   }
 
   /**
@@ -18,9 +29,8 @@ class SpiderClientEngine {
    */
   _initEngine(url, socketID) {
     this.engine = new WebSocket(url);
-    const data = new SpiderMessage(messageType.loginSpider, socketID);
-    this.engine.send(data);
+    this.engine.send();
   }
 }
 
-export default SpiderClientEngine;
+export { SpiderClientEngine };
