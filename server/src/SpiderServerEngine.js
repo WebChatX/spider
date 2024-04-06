@@ -67,16 +67,12 @@ class SpiderServerEngine {
    */
   _connectHandler(ws, req) {
     console.log(req.socket.remoteAddress);
-    console.log("-------------客户端请求信息-------------");
-    console.log("HTTP Version:", req.httpVersion);
-    console.log("Request Method:", req.method);
-    console.log("Request URL:", req.url);
-    console.log("Request Headers:", req.headers);
-    console.log("---------------------------------------");
-    if (this.spiderEventMap.has("connect")) {
-      const connectEventFunc = this.spiderEventMap.get("connect");
-      connectEventFunc(ws);
-    }
+    // console.log("-------------客户端请求信息-------------");
+    // console.log("HTTP Version:", req.httpVersion);
+    // console.log("Request Method:", req.method);
+    // console.log("Request URL:", req.url);
+    // console.log("Request Headers:", req.headers);
+    // console.log("---------------------------------------");
 
     ws.onerror = (event) => this._clientSocketErrorHandler(ws, event);
     ws.onmessage = (event) => this._clientSocketMessageHandler(ws, event);
@@ -107,12 +103,29 @@ class SpiderServerEngine {
    */
   _clientSocketMessageHandler(ws, event) {
     console.log("_clientSocketMessageHandler");
+    console.log(event.data);
     const msg = SpiderMessage.deserialize(event.data);
+    // 客户端登录
     if (msg.msgType === messageType.loginSpider) {
       const { senderID } = msg;
       //TODO:如果在线，则被挤下线
       this.clientSocketMap.set(senderID, ws);
-    } else {
+      if (this.spiderEventMap.has("connect")) {
+        const connectEventFunc = this.spiderEventMap.get("connect");
+        connectEventFunc(ws);
+      }
+    }
+    // 客户端登出
+    else if (msg.msgType === messageType.logoutSpider) {
+      const { senderID } = msg;
+      this.clientSocketMap.delete(senderID);
+      if (this.spiderEventMap.has("disconnect")) {
+        const disconnectEventFunc = this.spiderEventMap.get("disconnect");
+        disconnectEventFunc(ws);
+      }
+    }
+    // 其他消息
+    else {
       //TODO:未定义消息处理
     }
   }
