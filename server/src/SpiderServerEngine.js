@@ -1,6 +1,6 @@
 import { WebSocketServer } from "ws";
+import { SpiderMessage, messageType } from "@spider/core";
 import eventTypes from "./eventTypes.js";
-import { generateSocketID } from "./utils.js";
 
 class SpiderServerEngine {
   /**
@@ -29,10 +29,8 @@ class SpiderServerEngine {
     // this.engine.on("headers", () => {});
   }
 
-  // #region SpiderServerEngine事件处理
-
   /**
-   * Spider服务端引擎开始监听指定的端口时触发
+   * WebSocket服务开始监听指定的端口时触发
    */
   _listenHandler() {
     if (this.spiderEventMap.has("listen")) {
@@ -42,7 +40,7 @@ class SpiderServerEngine {
   }
 
   /**
-   * Spider服务端引擎关闭时触发
+   * WebSocket服务关闭时触发
    */
   _closeHandler() {
     if (this.spiderEventMap.has("close")) {
@@ -52,7 +50,7 @@ class SpiderServerEngine {
   }
 
   /**
-   * Spider服务端引擎发生错误时触发
+   * WebSocket服务发生错误时触发
    * @param {Error} error
    */
   _errorHandler(error) {
@@ -69,53 +67,55 @@ class SpiderServerEngine {
    */
   _connectHandler(ws, req) {
     console.log(req.socket.remoteAddress);
-    this._clientSocketOpenHandler(ws, req);
-    ws.onclose = () => this._clientSocketCloseHandler(ws, req);
-  }
-
-  // #endregion
-
-  // #region 客户端 WebSocket事件处理
-
-  /**
-   * 客户端 WebSocket 连接成功处理
-   * @param {WebSocket} ws
-   * @param {IncomingMessage} req
-   */
-  _clientSocketOpenHandler(ws, req) {
-    // ws.send(JSON.stringify(req));
     console.log("-------------客户端请求信息-------------");
     console.log("HTTP Version:", req.httpVersion);
     console.log("Request Method:", req.method);
     console.log("Request URL:", req.url);
     console.log("Request Headers:", req.headers);
     console.log("---------------------------------------");
-    const socketID = generateSocketID();
-    this.clientSocketMap.set(socketID, ws);
-    // ws.send();
     if (this.spiderEventMap.has("connect")) {
       const connectEventFunc = this.spiderEventMap.get("connect");
       connectEventFunc(ws);
     }
+
+    ws.onerror = (event) => this._clientSocketErrorHandler(ws, event);
+    ws.onmessage = (event) => this._clientSocketMessageHandler(ws, event);
   }
 
   /**
    * 客户端 WebSocket 连接关闭处理
    * @param {WebSocket} ws
-   * @param {IncomingMessage} req
+   * @param {CloseEvent} event
    */
-  _clientSocketCloseHandler(ws, req) {
-    // TODO 从客户端Socket列表中移除
-    //???
-    if (this.spiderEventMap.has("disconnect")) {
-      const disconnectEventFunc = this.spiderEventMap.get("disconnect");
-      disconnectEventFunc(ws);
-    }
+  _clientSocketCloseHandler(ws, event) {
+    console.log("_clientSocketCloseHandler");
   }
 
-  // #endregion
+  /**
+   * 当一个 WebSocket 连接因错误而关闭时触发
+   * @param {WebSocket} ws
+   * @param {Event} event
+   */
+  _clientSocketErrorHandler(ws, event) {
+    console.log("_clientSocketErrorHandler");
+  }
 
-  // #region 外部调用
+  /**
+   * 当通过 WebSocket 收到数据时触发
+   * @param {WebSocket} ws
+   * @param {MessageEvent<any>} event
+   */
+  _clientSocketMessageHandler(ws, event) {
+    console.log("_clientSocketMessageHandler");
+    const msg = SpiderMessage.deserialize(event.data);
+    if (msg.msgType === messageType.loginSpider) {
+      const { senderID } = msg;
+      //TODO:如果在线，则被挤下线
+      this.clientSocketMap.set(senderID, ws);
+    } else {
+      //TODO:未定义消息处理
+    }
+  }
 
   /**
    * 为Spider服务端引擎添加事件监听
@@ -141,8 +141,6 @@ class SpiderServerEngine {
       this.spiderEventMap.delete(type);
     }
   }
-
-  // #endregion
 }
 
 export default SpiderServerEngine;

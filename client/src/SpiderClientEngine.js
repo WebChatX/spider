@@ -18,9 +18,31 @@ class SpiderClientEngine {
    */
   _initEngine(url, socketID) {
     this.engine = new WebSocket(url);
-    const data = new SpiderMessage(messageType.loginSpider, socketID);
-    this.engine.send(data);
+
+    this.engine.onopen = () => {
+      console.log("------open------");
+      const msgStr = SpiderMessage.createMsg(
+        messageType.loginSpider,
+        null,
+        socketID,
+        null
+      );
+      this.engine.send(msgStr);
+    };
+    this.engine.onclose = () => {
+      console.log("------close------");
+    };
+
+    this.engine.onerror = () => {
+      console.log("------error------");
+    };
+
+    this.engine.onmessage = () => {
+      console.log("------message------");
+    };
   }
+
+  disconnect() {}
 }
 
 export default SpiderClientEngine;
