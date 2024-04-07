@@ -19,25 +19,18 @@ class SpiderClientEngine {
   _initEngine(url) {
     this.engine = new WebSocket(url);
 
-    this.engine.onopen = () => {
-      console.log("------open------");
-    };
-    this.engine.onclose = () => {
-      console.log("------close------");
-    };
-    this.engine.onerror = () => {
-      console.log("------error------");
-    };
-    this.engine.onmessage = () => {
-      console.log("------message------");
-    };
+    this.engine.onopen = (event) => this._openHandler(event);
+    this.engine.onclose = (event) => this._closeHandler(event);
+    this.engine.onerror = (event) => this._errorHandler(event);
+    this.engine.onmessage = (event) => this._messageHandler(event);
   }
 
   /**
-   * 连接Spider服务器
+   * 连接成功
+   * @param {Event} event
    */
-  connect() {
-    console.log("------connect------");
+  _openHandler(event) {
+    console.log("------open------");
     const msgStr = SpiderMessage.createMsg(
       messageType.loginSpider,
       null,
@@ -45,6 +38,30 @@ class SpiderClientEngine {
       null
     );
     this.engine.send(msgStr);
+  }
+
+  /**
+   * 连接关闭
+   * @param {CloseEvent} event
+   */
+  _closeHandler(event) {
+    console.log("------close------");
+  }
+
+  /**
+   * 连接失败
+   * @param {Event} event
+   */
+  _errorHandler(event) {
+    console.log("------error------");
+  }
+
+  /**
+   * 收到服务端的信息
+   * @param {MessageEvent<any>} event
+   */
+  _messageHandler(event) {
+    console.log("------message------");
   }
 
   /**
