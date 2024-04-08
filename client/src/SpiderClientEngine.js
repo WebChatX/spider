@@ -76,6 +76,7 @@ class SpiderClientEngine {
       null
     );
     this.engine.send(msgStr);
+    this.engine.close();
   }
 }
 
