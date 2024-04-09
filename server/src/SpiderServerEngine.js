@@ -12,6 +12,8 @@ class SpiderServerEngine {
     this.clientSocketMap = new Map();
     // Spider事件中心
     this.spiderEventMap = new Map();
+    // 自定义消息处理器
+    this.customMessageHandler = null;
     // 初始化引擎
     this._initEngine(options);
   }
@@ -73,7 +75,7 @@ class SpiderServerEngine {
     // console.log("Request URL:", req.url);
     // console.log("Request Headers:", req.headers);
     // console.log("---------------------------------------");
-
+    ws.onclose = (event) => this._clientSocketCloseHandler(ws, event);
     ws.onerror = (event) => this._clientSocketErrorHandler(ws, event);
     ws.onmessage = (event) => this._clientSocketMessageHandler(ws, event);
   }
@@ -124,6 +126,13 @@ class SpiderServerEngine {
         disconnectEventFunc(ws);
       }
     }
+    // 自定义消息
+    else if (msg.msgType === messageType.customMessage) {
+      const { data, senderID, receiverID } = msg;
+      if (this.customMessageHandler) {
+        this.customMessageHandler(senderID, receiverID, data);
+      }
+    }
     // 其他消息
     else {
       //TODO:未定义消息处理
@@ -153,6 +162,14 @@ class SpiderServerEngine {
     if (this.spiderEventMap.has(type)) {
       this.spiderEventMap.delete(type);
     }
+  }
+
+  /**
+   * 设置自定义消息处理器
+   * @param {Function} callback
+   */
+  setCustomMessageHandler(callback) {
+    this.customMessageHandler = callback;
   }
 }
 
