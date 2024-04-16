@@ -8,6 +8,7 @@ class SpiderServerEngine {
    * @param {WebSocket.ServerOptions} options
    */
   constructor(options) {
+    this.options = options;
     // 客户端socket列表
     this.clientSocketMap = new Map();
     // Spider事件中心
@@ -15,15 +16,14 @@ class SpiderServerEngine {
     // 自定义消息处理器
     this.customMessageHandler = null;
     // 初始化引擎
-    this._initEngine(options);
+    this._initEngine();
   }
 
   /**
    * Spider服务端引擎初始化
-   * @param {WebSocket.ServerOptions} options
    */
-  _initEngine(options) {
-    this.engine = new WebSocketServer(options);
+  _initEngine() {
+    this.engine = new WebSocketServer(this.options);
     this.engine.on("listening", this._listenHandler.bind(this));
     this.engine.on("close", this._closeHandler.bind(this));
     this.engine.on("error", this._errorHandler.bind(this));
@@ -37,7 +37,7 @@ class SpiderServerEngine {
   _listenHandler() {
     if (this.spiderEventMap.has("listen")) {
       const listenEventFunc = this.spiderEventMap.get("listen");
-      listenEventFunc();
+      listenEventFunc(this.options.port);
     }
   }
 
