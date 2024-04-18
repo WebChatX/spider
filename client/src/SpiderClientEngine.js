@@ -25,11 +25,10 @@ class SpiderClientEngine {
   }
 
   /**
-   * 连接成功
+   * 连接Spider服务端引擎成功
    * @param {Event} event
    */
   _openHandler(event) {
-    console.log("------open------");
     const msgStr = SpiderMessage.createMsg(
       messageType.loginSpider,
       null,

@@ -1,10 +1,10 @@
 {
-  "name": "@server/client",
+  "name": "@spider/client",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "main": "dist/SpiderClient.esm.js",
-  "files": [],
+  "files": ["dist"],
   "scripts": {
     "build": "rollup -c rollup.config.js"
   },
