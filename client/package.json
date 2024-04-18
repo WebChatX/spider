@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "src/main.js",
+  "main": "dist/SpiderClient.esm.js",
+  "files": [],
   "scripts": {
     "build": "rollup -c rollup.config.js"
   },

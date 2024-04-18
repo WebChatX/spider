@@ -7,18 +7,17 @@ class SpiderClientEngine {
    * @param {string} socketID 唯一ID标识，服务端进行标识
    */
   constructor(url, socketID) {
+    this.url = url;
     this.socketID = socketID;
     // 初始化引擎
-    this._initEngine(url);
+    this._initEngine();
   }
 
   /**
    * Spider客户端引擎初始化
-   * @param {string} url 要连接的URL
    */
-  _initEngine(url) {
-    this.engine = new WebSocket(url);
-
+  _initEngine() {
+    this.engine = new WebSocket(this.url);
     this.engine.onopen = (event) => this._openHandler(event);
     this.engine.onclose = (event) => this._closeHandler(event);
     this.engine.onerror = (event) => this._errorHandler(event);
