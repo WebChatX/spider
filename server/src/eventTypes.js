@@ -1,9 +1,9 @@
 /**
- *  listen: WebSocket服务开始监听指定的端口时触发
- *  close: WebSocket服务关闭时触发
- *  error: WebSocket服务发生错误时触发
- *  connect：客户端连接成功时触发
- *  disconnect：客户端断开连接时触发
+ *  listen: Spider服务端引擎开始监听端口时触发
+ *  close: Spider服务端引擎关闭时触发
+ *  error: Spider服务端引擎发生错误时触发
+ *  connect：Spider客户端引擎连接成功时触发
+ *  disconnect：Spider客户端引擎断开连接时触发
  */
 const eventTypes = ["listen", "close", "error", "connect", "disconnect"];
 

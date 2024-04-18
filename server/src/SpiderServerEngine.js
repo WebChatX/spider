@@ -107,7 +107,7 @@ class SpiderServerEngine {
     console.log("_clientSocketMessageHandler");
     console.log(event.data);
     const msg = SpiderMessage.deserialize(event.data);
-    // 客户端登录
+    // 客户端上线
     if (msg.msgType === messageType.loginSpider) {
       const { senderID } = msg;
       //TODO:如果在线，则被挤下线
@@ -117,7 +117,7 @@ class SpiderServerEngine {
         connectEventFunc(ws);
       }
     }
-    // 客户端登出
+    // 客户端下线
     else if (msg.msgType === messageType.logoutSpider) {
       const { senderID } = msg;
       this.clientSocketMap.delete(senderID);
