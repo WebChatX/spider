@@ -141,7 +141,7 @@ class SpiderServerEngine {
 
   /**
    * 为Spider服务端引擎添加事件监听
-   * @param {string} type 事件类型
+   * @param {"listen" | "close" | "error" | "connect" | "disconnect"} type 事件类型
    * @param {Function} listener 监听器
    */
   addEventListener(type, listener) {
@@ -153,7 +153,7 @@ class SpiderServerEngine {
 
   /**
    * 为Spider服务端引擎移除事件监听
-   * @param {string} type
+   * @param {"listen" | "close" | "error" | "connect" | "disconnect"} type
    */
   removeEventListener(type) {
     if (!eventTypes.includes(type)) {

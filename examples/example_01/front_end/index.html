@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>example01</title>
+    <link rel="stylesheet" href="./index.css" />
+    <script src="../../node_modules/@spider/client/dist/SpiderClient.min.js"></script>
+  </head>
+  <body>
+    <div class="title">
+      <h2>Spider案例01</h2>
+      <p>此案例用于验证Spider框架基础的WebSocket通讯能力。</p>
+      <p>内容包括：</p>
+      <ol>
+        <li>登录、登出功能</li>
+        <li>发送、接收自定义消息</li>
+      </ol>
+    </div>
+
+    <div class="login">
+      <p>请选择一种身份进行登录：</p>
+      <div class="select-user">
+        <input type="radio" name="user" />
+        <span>鸣鸣酱</span>
+      </div>
+      <div class="select-user">
+        <input type="radio" name="user" />
+        <span>阿帆</span>
+      </div>
+
+      <button class="login-btn">登录</button>
+    </div>
+
+    <div class="container">
+      <div class="login-before"></div>
+
+      <div class="header">鸣鸣酱</div>
+      <div class="main"></div>
+      <div class="footer">
+        <div class="input-box">
+          <input type="text" />
+        </div>
+        <div class="send-btn">发送</div>
+      </div>
+    </div>
+
+    <script></script>
+  </body>
+</html>
