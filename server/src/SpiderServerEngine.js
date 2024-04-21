@@ -105,7 +105,6 @@ class SpiderServerEngine {
    */
   _clientSocketMessageHandler(ws, event) {
     console.log("_clientSocketMessageHandler");
-    console.log(event.data);
     const msg = SpiderMessage.deserialize(event.data);
     // 客户端上线
     if (msg.msgType === messageType.loginSpider) {
@@ -138,6 +137,20 @@ class SpiderServerEngine {
       //TODO:未定义消息处理
     }
   }
+
+  /**
+   * Spider消息处理
+   * @param {WebSocket} ws
+   * @param {SpiderMessage} msg
+   */
+  _spiderMessageHandler(ws, msg) {}
+
+  /**
+   * 自定义消息处理
+   * @param {WebSocket} ws
+   * @param {SpiderMessage} msg
+   */
+  _customMessageHandler(ws, msg) {}
 
   /**
    * 为Spider服务端引擎添加事件监听

@@ -29,6 +29,7 @@ class SpiderClientEngine {
    * @param {Event} event
    */
   _openHandler(event) {
+    // 登录消息
     const msgStr = SpiderMessage.createMsg(
       messageType.loginSpider,
       null,
@@ -60,13 +61,14 @@ class SpiderClientEngine {
    */
   _messageHandler(event) {
     console.log("------message------");
+    console.log(event.data);
+    //const msg = SpiderMessage.deserialize(event.data);
   }
 
   /**
    * 断开与Spider服务器的连接
    */
   disconnect() {
-    console.log("------disconnect------");
     const msgStr = SpiderMessage.createMsg(
       messageType.logoutSpider,
       null,
@@ -76,6 +78,14 @@ class SpiderClientEngine {
     this.engine.send(msgStr);
     this.engine.close();
   }
+
+  /**
+   * 发送消息给其他客户端
+   * @param {string} customMsgType  自定义消息类型
+   * @param {*} data  消息数据
+   * @param {*} receiverID  接收者ID
+   */
+  send(customMsgType, data, receiverID) {}
 }
 
 export default SpiderClientEngine;

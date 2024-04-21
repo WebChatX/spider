@@ -9,8 +9,9 @@ class SpiderMessage {
    * @param {Object} data 消息数据
    * @param {string} senderID 发送者ID
    * @param {string} receiverID 接受者ID
+   * @param {boolean} isCustom 是否为自定义消息
    */
-  constructor(msgType, data, senderID, receiverID) {
+  constructor(msgType, data, senderID, receiverID, isCustom = false) {
     if (!allowMsgType.includes(msgType)) {
       throw new Error(`Unsupported message type: ${msgType}`);
     }
@@ -18,6 +19,7 @@ class SpiderMessage {
     this.data = data;
     this.senderID = senderID;
     this.receiverID = receiverID;
+    this.isCustom = isCustom;
   }
 
   /**

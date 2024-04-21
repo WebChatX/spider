@@ -26,7 +26,7 @@ importers:
 
   core: {}
 
-  example:
+  examples:
     dependencies:
       '@spider/client':
         specifier: workspace:*
