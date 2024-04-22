@@ -106,6 +106,17 @@ class SpiderServerEngine {
   _clientSocketMessageHandler(ws, event) {
     console.log("_clientSocketMessageHandler");
     const msg = SpiderMessage.deserialize(event.data);
+    msg.isCustom
+      ? this._customMessageHandler(ws, msg)
+      : this._spiderMessageHandler(ws, msg);
+  }
+
+  /**
+   * Spider消息处理
+   * @param {WebSocket} ws
+   * @param {SpiderMessage} msg
+   */
+  _spiderMessageHandler(ws, msg) {
     // 客户端上线
     if (msg.msgType === messageType.loginSpider) {
       const { senderID } = msg;
@@ -125,32 +136,22 @@ class SpiderServerEngine {
         disconnectEventFunc(ws);
       }
     }
-    // 自定义消息
-    else if (msg.msgType === messageType.customMessage) {
-      const { data, senderID, receiverID } = msg;
-      if (this.customMessageHandler) {
-        this.customMessageHandler(senderID, receiverID, data);
-      }
-    }
     // 其他消息
     else {
-      //TODO:未定义消息处理
+      console.log("Error: 客户端传递未定义消息");
     }
   }
-
-  /**
-   * Spider消息处理
-   * @param {WebSocket} ws
-   * @param {SpiderMessage} msg
-   */
-  _spiderMessageHandler(ws, msg) {}
 
   /**
    * 自定义消息处理
    * @param {WebSocket} ws
    * @param {SpiderMessage} msg
    */
-  _customMessageHandler(ws, msg) {}
+  _customMessageHandler(ws, msg) {
+    if (this.customMessageHandler) {
+      this.customMessageHandler(msg);
+    }
+  }
 
   /**
    * 为Spider服务端引擎添加事件监听
