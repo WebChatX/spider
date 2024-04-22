@@ -26,11 +26,11 @@ spiderServerEngine.addEventListener("disconnect", () => {
 });
 
 //设置自定义消息
-spiderServerEngine.setCustomMessageHandler(customMessageHandler);
-
-// 自定义消息处理
-function customMessageHandler(senderID, receiverID, data) {
-  console.log("发送者ID：", senderID);
-  console.log("接受者ID：", receiverID);
-  console.log("数据：", data);
-}
+spiderServerEngine.setCustomMessageHandler((msg) => {
+  console.log("-----------------------------------");
+  console.log("消息类型：", msg.msgType);
+  console.log("发送者ID：", msg.senderID);
+  console.log("接受者ID：", msg.receiverID);
+  console.log("消息数据：", msg.data);
+  console.log("-----------------------------------");
+});

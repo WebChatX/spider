@@ -63,7 +63,7 @@ class SpiderServerEngine {
   }
 
   /**
-   * 客户端 Websocket 连接处理
+   * WebSocket服务收到连接请求时触发
    * @param {WebSocket} ws
    * @param {IncomingMessage} req
    */
@@ -90,7 +90,7 @@ class SpiderServerEngine {
   }
 
   /**
-   * 当一个 WebSocket 连接因错误而关闭时触发
+   * 客户端 WebSocket 连接因错误而关闭时触发
    * @param {WebSocket} ws
    * @param {Event} event
    */
@@ -99,7 +99,7 @@ class SpiderServerEngine {
   }
 
   /**
-   * 当通过 WebSocket 收到数据时触发
+   * 当收到 客户端 WebSocket 数据时触发
    * @param {WebSocket} ws
    * @param {MessageEvent<any>} event
    */
@@ -136,7 +136,7 @@ class SpiderServerEngine {
         disconnectEventFunc(ws);
       }
     }
-    // 其他消息
+    // 未知消息处理
     else {
       console.log("Error: 客户端传递未定义消息");
     }
@@ -180,7 +180,7 @@ class SpiderServerEngine {
 
   /**
    * 设置自定义消息处理器
-   * @param {Function} callback
+   * @param {(msg:SpiderMessage) => void} callback
    */
   setCustomMessageHandler(callback) {
     this.customMessageHandler = callback;
