@@ -6,6 +6,7 @@
     <title>example01</title>
     <link rel="stylesheet" href="./index.css" />
     <script src="../../node_modules/@spider/client/dist/SpiderClient.min.js"></script>
+    <script src="../../SaberX.js"></script>
   </head>
   <body>
     <div class="title">
@@ -21,11 +22,11 @@
     <div class="login">
       <p>请选择一种身份进行登录：</p>
       <div class="select-user">
-        <input type="radio" name="user" />
+        <input type="radio" name="user" value="鸣鸣酱" checked />
         <span>鸣鸣酱</span>
       </div>
       <div class="select-user">
-        <input type="radio" name="user" />
+        <input type="radio" name="user" value="阿帆" />
         <span>阿帆</span>
       </div>
 
@@ -33,7 +34,10 @@
     </div>
 
     <div class="container">
-      <div class="login-before"></div>
+      <div class="login-before">世界因你而不同</div>
+      <div class="login-loading">
+        <img data-src="./assets/loading.gif" />
+      </div>
 
       <div class="header">鸣鸣酱</div>
       <div class="main"></div>
@@ -45,6 +49,40 @@
       </div>
     </div>
 
-    <script></script>
+    <script>
+      // 登录用户信息
+      const userData = {
+        username: ""
+      };
+      // 聊天消息
+      const messageList = [
+        { sender: "鸣鸣酱", content: "你好啊" }, 
+        { sender: "阿帆", content: "很高兴认识你" }
+      ];
+
+      const loginBtnEl = $(".login-btn");
+
+      loginBtnEl.addEventListener("click", () => {
+        // 开始加载图片
+        const imgEl = $(".login-loading img");
+        imgEl.setAttribute("src", imgEl.getAttribute("data-src"));
+        imgEl.removeAttribute("data-src");
+
+        // 开始显示加载动画
+        $(".login-before").style.display = "none";
+
+        // 开始登录
+        setTimeout(() => {
+          $(".login-loading").style.display = "none";
+
+          // 获取用户名
+          const username = [...$$(".select-user input")].find(
+            (item) => item.checked
+          ).defaultValue;
+
+          
+        }, 3000);
+      });
+    </script>
   </body>
 </html>
