@@ -1,5 +1,4 @@
 packages:
   - "client"
   - "core"
-  - "examples"
   - "server"

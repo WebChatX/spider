@@ -28,7 +28,6 @@ class SpiderServerEngine {
     this.engine.on("close", this._closeHandler.bind(this));
     this.engine.on("error", this._errorHandler.bind(this));
     this.engine.on("connection", this._connectHandler.bind(this));
-    // this.engine.on("headers", () => {});
   }
 
   /**
@@ -68,13 +67,6 @@ class SpiderServerEngine {
    * @param {IncomingMessage} req
    */
   _connectHandler(ws, req) {
-    console.log(req.socket.remoteAddress);
-    // console.log("-------------客户端请求信息-------------");
-    // console.log("HTTP Version:", req.httpVersion);
-    // console.log("Request Method:", req.method);
-    // console.log("Request URL:", req.url);
-    // console.log("Request Headers:", req.headers);
-    // console.log("---------------------------------------");
     ws.onclose = (event) => this._clientSocketCloseHandler(ws, event);
     ws.onerror = (event) => this._clientSocketErrorHandler(ws, event);
     ws.onmessage = (event) => this._clientSocketMessageHandler(ws, event);
