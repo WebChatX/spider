@@ -1,12 +1,13 @@
 import terser from "@rollup/plugin-terser";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 
 export default [
   {
-    input: "src/main.js",
+    input: "client/src/index.js",
     output: [
       {
-        file: "dist/SpiderClient.esm.js",
+        file: "dist/SpiderClient.js",
         format: "es"
       },
       {
@@ -17,5 +18,15 @@ export default [
       }
     ],
     plugins: [nodeResolve()]
+  },
+  {
+    input: "server/src/index.js",
+    output: [
+      {
+        file: "dist/SpiderServer.js",
+        format: "cjs"
+      }
+    ],
+    plugins: [nodeResolve(), commonjs()]
   }
 ];

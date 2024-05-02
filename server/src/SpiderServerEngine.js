@@ -4,14 +4,24 @@ import eventTypes from "./eventTypes.js";
 
 class SpiderServerEngine {
   /**
-   * SpiderServerEngine构造函数
+   * 创建一个 SpiderServerEngine 实例。
    * @param {WebSocket.ServerOptions} options
    */
   constructor(options) {
+    /**
+     * WebSocket服务端配置选项
+     * @type {WebSocket.ServerOptions}
+     */
     this.options = options;
-    // 客户端socket列表
+    /**
+     * 客户端 WebSocket 连接映射，用于存储客户端 WebSocket 实例。
+     * @type {Map<string, WebSocket>}
+     */
     this.clientSocketMap = new Map();
-    // Spider事件中心
+    /**
+     * Spider 事件映射，用于存储不同类型的事件处理函数。
+     * @type {Map<string, Function>}
+     */
     this.spiderEventMap = new Map();
     // 自定义消息处理器
     this.customMessageHandler = null;

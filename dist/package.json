@@ -1,0 +1,11 @@
+{
+  "name": "@webchatx/spider",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "publish": "npm publish --access public"
+  },
+  "keywords": ["WebChatX", "spider"],
+  "author": "liliang12138",
+  "license": "ISC"
+}
